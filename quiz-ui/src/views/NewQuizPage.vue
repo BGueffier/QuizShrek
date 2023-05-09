@@ -25,7 +25,7 @@ import participationStorageService from "@/services/ParticipationStorageService"
 
     <form>
         <div class="form-group">
-            <input type="text" class="form-control" id="name1" placeholder="Username" v-model="username">
+            <input type="text" class="form-control" id="name1" placeholder="Saisissez votre nom d'utilisateur" v-model="username">
         </div>
         <div>
             <button type="button" class="btn" @click="launchNewQuiz">GO!</button>

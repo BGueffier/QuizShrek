@@ -44,10 +44,6 @@ export default {
     this.registeredScores.push({playerName: "Ben", score: 150, index: 2});
 		this.registeredScores.push({playerName: "Vinc", score: 128, index: 3});
     this.registeredScores.push({playerName: "Yoyo", score: 1, index: 4});
-
-
-
-    console.log(JSON.stringify(this.registeredScores));
   }
 };
 </script>
