@@ -5,19 +5,20 @@ import { RouterLink, RouterView } from 'vue-router'
 <template>
   <header>
 
-    <div class="wrapper">
-
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-      </nav>
-    </div>
   </header>
 
   <RouterView />
 </template>
 
 <style scoped>
+
+@font-face {
+  font-family: "ShrekFont";
+  src: local("ShrekFont"),
+   url(../public/fonts/Shrek.ttf) format("truetype");
+}
+
+
 header {
   line-height: 1.5;
   max-height: 100vh;
