@@ -21,7 +21,7 @@
             <button type="button" class="btn answer" @click="launchNewQuiz">Bouriquet</button>
         </div>
         <div>
-            <button type="button" class="btn answer" @click="launchNewQuiz">Fils de pute</button>
+            <button type="button" class="btn answer" @click="launchNewQuiz">Greg</button>
             <button type="button" class="btn answer" @click="launchNewQuiz">Réponse d</button>
         </div>
         
