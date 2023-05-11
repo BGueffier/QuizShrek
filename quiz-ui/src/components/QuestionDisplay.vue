@@ -2,6 +2,11 @@
     export default {
 
         name: "QuestionDisplay",
+        props: {
+            question: {
+                type: Object
+            }
+        },
         data() {
         },
     }
@@ -13,28 +18,17 @@
     </div>
     
     <div>
-        <h2 class="question-title">Comment s'appelle L'Âne dans Shrek ?</h2>
+        <h2 class="question-title">{{question.questionTitle}}</h2>
     </div>
-    <div class="answers-area d-grid">
-        <div>
-            <button type="button" class="btn answer" @click="launchNewQuiz">L'ane</button>
-            <button type="button" class="btn answer" @click="launchNewQuiz">Bouriquet</button>
+    <div class="answers-area">
+        <div class="answer" v-for="answer in question.possibleAnswers" v-bind:key="answer">
+            <button type="button" class="btn" @click="launchNewQuiz">{{answer}}</button>
         </div>
-        <div>
-            <button type="button" class="btn answer" @click="launchNewQuiz">Greg</button>
-            <button type="button" class="btn answer" @click="launchNewQuiz">Réponse d</button>
-        </div>
-        
     </div>
     
 </template>
 
 <style>
-
-    .answer {
-        width: 40%;
-        margin: 3% 5% 3% 5%;
-    }
     .picture {
         min-width: 500px;
         max-width: 550px;
@@ -49,6 +43,17 @@
     .answers-area {
         padding: 1em 0 0 0;
         display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .answer{
+        width: 40%;
+        margin: 3% 2% 3% 2%;
+    }
+
+    .answer>.btn{
+        width: 100%;
     }
 
 </style>
