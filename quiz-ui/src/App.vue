@@ -15,7 +15,13 @@ import { RouterLink, RouterView } from 'vue-router'
 @font-face {
   font-family: "ShrekFont";
   src: local("ShrekFont"),
-   url(../public/fonts/Shrek.ttf) format("truetype");
+   url(@/assets/fonts/Shrek.ttf) format("truetype");
+}
+
+@font-face {
+  font-family: "Helvetica";
+  src: local("Helvetica"),
+   url(@/assets/fonts/Helvetica.ttf) format("truetype");
 }
 
 

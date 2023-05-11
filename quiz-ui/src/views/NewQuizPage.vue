@@ -16,6 +16,7 @@ import participationStorageService from "@/services/ParticipationStorageService"
                 participationStorageService.savePlayerName(this.username);
                 this.$router.push('/questions');
             },
+
         }
     }
 </script>
@@ -28,7 +29,7 @@ import participationStorageService from "@/services/ParticipationStorageService"
             <input type="text" class="form-control" id="name1" placeholder="Saisissez votre nom d'utilisateur" v-model="username">
         </div>
         <div>
-            <button type="button" class="btn" @click="launchNewQuiz">GO!</button>
+            <button type="button" class="btn" @click="launchNewQuiz" :disabled="this.username.length <= 0">GO!</button>
         </div>
     </form>
 </template>

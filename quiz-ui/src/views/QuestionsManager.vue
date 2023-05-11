@@ -1,25 +1,41 @@
 <script>
-// import quizApiService from "@/services/QuizApiService";
-import participationStorageService from "@/services/ParticipationStorageService";
-    export default {
+import QuestionDisplay from "@/components/QuestionDisplay.vue";
 
-        name: "QuestionsManager",
+export default {
 
-        data() {
-            let currentQuestion = { 
-                questionTitle: "Comment s'appelle l'âne dans Shrek ?", 
-                questionText: "Nom de l'âne, de Shrek : ",
-                possibleAnswers: ["L'âne","Damso","Frédéric","Michel"],
-            }
+    name: "QuestionsManager",
+    components: {
+        QuestionDisplay
+    },
 
-            return {
-                currentQuestion
-            };
-            
-        }
+    data() {
+        let currentQuestion = {
+            questionTitle: "Comment s'appelle l'âne dans Shrek ?",
+            questionText: "Nom de l'âne, de Shrek : ",
+            possibleAnswers: [{text:"L'âne", id:0},{text:"Greg", id:1},{text:"Reforme des retraites", id:2},{text:"Suzie", id:3}],
+        };
+        let currentQuestionPosition = 0;
+        let totalNumberOfQuestion = 1;
+
+        return {
+            currentQuestion, currentQuestionPosition, totalNumberOfQuestion
+        };
+
+    },
+    methods:{
+        async answerClickedHandler(index){
+            alert(index);
+        },
     }
+}
+
+
 </script>
 
-<style>
+<template>
+    <h1>Question {{ currentQuestionPosition }} / {{ totalNumberOfQuestion }}</h1>
+    <QuestionDisplay :question="currentQuestion" @answer-selected="answerClickedHandler" />
+</template>
 
+<style>
 </style>
