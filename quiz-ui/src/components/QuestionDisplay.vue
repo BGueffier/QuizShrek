@@ -2,6 +2,7 @@
     export default {
 
         name: "QuestionDisplay",
+        emits: ["answer-selected"],
         props: {
             question: {
                 type: Object
@@ -21,8 +22,8 @@
         <h2 class="question-title">{{question.questionTitle}}</h2>
     </div>
     <div class="answers-area">
-        <div class="answer" v-for="answer in question.possibleAnswers" v-bind:key="answer">
-            <button type="button" class="btn" @click="launchNewQuiz">{{answer}}</button>
+        <div class="answer" v-for="answer in question.possibleAnswers" v-bind:key="answer.id">
+            <button type="button" class="btn" @click="$emit('answer-selected', answer.id)">{{answer.text}}</button>
         </div>
     </div>
     

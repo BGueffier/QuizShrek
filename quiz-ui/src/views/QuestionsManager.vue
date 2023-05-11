@@ -12,7 +12,7 @@ export default {
         let currentQuestion = {
             questionTitle: "Comment s'appelle l'âne dans Shrek ?",
             questionText: "Nom de l'âne, de Shrek : ",
-            possibleAnswers: ["L'âne","Damso","Frédéric"],
+            possibleAnswers: [{text:"L'âne", id:0},{text:"Greg", id:1},{text:"Reforme des retraites", id:2},{text:"Suzie", id:3}],
         };
         let currentQuestionPosition = 0;
         let totalNumberOfQuestion = 1;
@@ -23,7 +23,8 @@ export default {
 
     },
     methods:{
-        answerClickedHandler(){
+        async answerClickedHandler(index){
+            alert(index);
         },
     }
 }
@@ -32,8 +33,8 @@ export default {
 </script>
 
 <template>
-    <h1 style="font-family:'ShrekFont';">Question {{ currentQuestionPosition }} / {{ totalNumberOfQuestion }}</h1>
-    <QuestionDisplay :question="currentQuestion" @click-on-answer="answerClickedHandler" />
+    <h1>Question {{ currentQuestionPosition }} / {{ totalNumberOfQuestion }}</h1>
+    <QuestionDisplay :question="currentQuestion" @answer-selected="answerClickedHandler" />
 </template>
 
 <style>
