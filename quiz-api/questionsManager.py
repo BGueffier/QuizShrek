@@ -22,6 +22,24 @@ def create_question(payload):
 
     return question_id
 
+def update_question(payload, question_id_request):
+    with sqlite3.connect("database.db") as db_connection:
+        c = db_connection.cursor()
+
+        query = "UPDATE question SET position = ?, title = ?, text = ?, image = ? WHERE id = ?"
+        values = (payload['position'], payload['title'], payload['text'], payload['image'], question_id_request)
+
+        c.execute(query, values)
+
+        for answerInQuestion in payload['possibleAnswers']:
+            print(answerInQuestion['text'])
+            print(answerInQuestion['isCorrect'])
+            print(question_id_request)
+            queryAnswers = "UPDATE answer SET text = ?, isCorrect = ? WHERE question_id = ?"
+            valuesAnswers = (answerInQuestion['text'], answerInQuestion['isCorrect'], question_id_request)
+            c.execute(queryAnswers, valuesAnswers)
+
+        db_connection.commit()
 
 
 
