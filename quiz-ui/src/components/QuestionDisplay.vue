@@ -15,7 +15,7 @@
 
 <template>
     <div>
-        <img src="@/assets/lane.png" class="picture">
+        <img src="@/assets/images/lane.png" class="picture">
     </div>
     
     <div>

@@ -3,26 +3,26 @@
 
   <h4 class="subtitle">Best Shrek Lovers</h4>
   <table class="table table-dark table-striped">
-  <thead>
-    <tr>
-      
-    </tr>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">Nom du joueur</th>
-      <th scope="col">Score</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr v-for="scoreEntry in registeredScores" v-bind:key="scoreEntry.index">
-      <th scope="row">{{ scoreEntry.index }}</th>
-      <td>{{ scoreEntry.playerName }}</td>
-      <td>{{ scoreEntry.score }}</td>
-    </tr>
+    <thead>
+      <tr>
+        
+      </tr>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Nom du joueur</th>
+        <th scope="col">Score</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr v-for="scoreEntry in registeredScores" v-bind:key="scoreEntry.index">
+        <th scope="row">{{ scoreEntry.index }}</th>
+        <td>{{ scoreEntry.playerName }}</td>
+        <td>{{ scoreEntry.score }}</td>
+      </tr>
 
-  </tbody>
-</table>
-  <router-link class="btn start-quiz" to="/start-new-quiz-page">Démarrer le challenge !</router-link>
+    </tbody>
+  </table>
+<router-link class="btn start-quiz" to="/start-new-quiz-page">Démarrer le challenge !</router-link>
   
 </template>
 

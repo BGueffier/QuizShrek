@@ -4,10 +4,17 @@ import { RouterLink, RouterView } from 'vue-router'
 
 <template>
   <header>
+    <div class="navbar">
+      <img src="@/assets/images/shrek-navbar.ico" class="picture">
 
+      <div class="">
+        <!-- <router-link class="btn" to="/start-new-quiz-page">Démarrer le challenge !</router-link> -->
+      </div>
+    </div>
   </header>
-
-  <RouterView />
+  <RouterView /> 
+  
+   
 </template>
 
 <style scoped>
@@ -24,12 +31,17 @@ import { RouterLink, RouterView } from 'vue-router'
    url(@/assets/fonts/Helvetica.ttf) format("truetype");
 }
 
-
 header {
   line-height: 1.5;
   max-height: 100vh;
+  position: fixed;
+  left: 0;
+  top: 0;
 }
 
+.navbar{
+  display: flex;
+}
 .logo {
   display: block;
   margin: 0 auto 2rem;
@@ -42,6 +54,10 @@ nav {
   margin-top: 2rem;
 }
 
+.picture {
+  min-width: 20%;
+  max-width: 25%;
+}
 nav a.router-link-exact-active {
   color: var(--color-text);
 }
