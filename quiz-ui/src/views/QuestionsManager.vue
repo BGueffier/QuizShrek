@@ -20,6 +20,10 @@ import participationStorageService from "@/services/ParticipationStorageService"
     }
 </script>
 
+<template>
+    
+</template>
 <style>
+
 
 </style>

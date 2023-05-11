@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomePage from '../views/HomePage.vue'
 import NewQuizPage from '../views/NewQuizPage.vue'
-import QuestionManager from '../views/QuestionsManager.vue'
+import QuestionDisplay from '../components/QuestionDisplay.vue'
 
 
 const router = createRouter({
@@ -20,7 +20,7 @@ const router = createRouter({
     {
       path: '/questions',
       name: 'Questions',
-      component: QuestionManager
+      component: QuestionDisplay
     }
   ]
 })

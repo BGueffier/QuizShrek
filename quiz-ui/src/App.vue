@@ -18,6 +18,12 @@ import { RouterLink, RouterView } from 'vue-router'
    url(../public/fonts/Shrek.ttf) format("truetype");
 }
 
+@font-face {
+  font-family: "Helvetica";
+  src: local("Helvetica"),
+   url(../public/fonts/Helvetica.ttf) format("truetype");
+}
+
 
 header {
   line-height: 1.5;
