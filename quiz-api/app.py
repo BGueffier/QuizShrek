@@ -52,8 +52,8 @@ def delete_one_question(questionId):
 
 		try:
 			questionsManager.delete_question(questionId)
-		except ValueError:
-			return jsonify({'message': 'Question not found'}), 404
+		except ValueError as e:
+			return jsonify({'message': e.args[0]}), 404
 		return jsonify({'message': 'No Content'}), 204
 	else:
 		return jsonify({'message': 'Unauthorized'}), 401
@@ -83,8 +83,8 @@ def modify_one_question(questionId):
 
 		try:
 			questionsManager.update_question(request.get_json(), questionId)
-		except ValueError:
-			return jsonify({'message': 'Question not found'}), 404
+		except ValueError as e:
+			return jsonify({'message': e.args[0]}), 404
 		return jsonify({'message': 'No Content'}), 204
 	else:
 		return jsonify({'message': 'Unauthorized'}), 401

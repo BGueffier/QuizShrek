@@ -5,6 +5,15 @@ def create_question(payload):
     with sqlite3.connect("database.db") as db_connection:
         c = db_connection.cursor()
 
+        c.execute("SELECT COUNT(*) FROM question")
+        number_of_questions = c.fetchone()[0]
+        new_position = payload['position']
+
+        if new_position < 1 or new_position > number_of_questions + 1: #On prend en compte la question que l'on va ajouter juste après d'ou le +1
+            raise ValueError("Invalid position (musn't be less than 1 or greater than questions length + 1)")
+        
+        c.execute("UPDATE question SET position=position+1 WHERE position >= ?", (new_position,))
+
         query = "INSERT INTO question (position, title, text, image) VALUES (?, ?, ?, ?)"
         values = (payload['position'], payload['title'], payload['text'], payload['image'])
 
@@ -47,16 +56,16 @@ def update_question(payload, question_id_request):
         c = db_connection.cursor()
 
         c.execute("SELECT position FROM question WHERE id=?", (question_id_request,))
-        if c.fetchone() == None:
-            raise ValueError("Question not found")
         current_position = c.fetchone()[0]
+        if current_position == None:
+            raise ValueError("Question not found")
 
         c.execute("SELECT COUNT(*) FROM question")
         number_of_questions = c.fetchone()[0]
         new_position = payload['position']
 
         if new_position < 1 or new_position > number_of_questions:
-            raise ValueError("Invalid position")
+            raise ValueError("Invalid position (musn't be less than 1 or greater than questions length)")
 
         if new_position != current_position:
             if new_position < current_position:
