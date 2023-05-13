@@ -34,9 +34,18 @@ def delete_question(question_id_request):
     with sqlite3.connect('database.db') as db_connection:
         c = db_connection.cursor()
 
-        c.execute("SELECT * FROM question WHERE id=?", (question_id_request,))
-        if c.fetchone() == None:
+        c.execute("SELECT position FROM question WHERE id=?", (question_id_request,))
+        deleted_question_position = c.fetchone()
+        if deleted_question_position == None:
             raise ValueError("Question not found")
+        
+        deleted_question_position_value = deleted_question_position[0]
+        
+        c.execute("SELECT COUNT(*) FROM question")
+        number_of_questions = c.fetchone()[0]
+
+        if number_of_questions > deleted_question_position_value:
+            c.execute("UPDATE question SET position=position-1 WHERE position > ?", (deleted_question_position_value,))
 
         c.execute('DELETE FROM answer WHERE question_id = ?', (question_id_request,))
         c.execute('DELETE FROM question WHERE id = ?', (question_id_request,))
@@ -56,9 +65,11 @@ def update_question(payload, question_id_request):
         c = db_connection.cursor()
 
         c.execute("SELECT position FROM question WHERE id=?", (question_id_request,))
-        current_position = c.fetchone()[0]
-        if current_position == None:
+        current_position_unfetched = c.fetchone()
+        if current_position_unfetched == None:
             raise ValueError("Question not found")
+        
+        current_position = current_position_unfetched[0]
 
         c.execute("SELECT COUNT(*) FROM question")
         number_of_questions = c.fetchone()[0]
