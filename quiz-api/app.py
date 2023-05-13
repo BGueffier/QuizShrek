@@ -88,7 +88,15 @@ def modify_one_question(questionId):
 		return jsonify({'message': 'No Content'}), 204
 	else:
 		return jsonify({'message': 'Unauthorized'}), 401
+	
+@app.route('/questions/<questionId>', methods=['GET'])
+def get_question_by_id(questionId):
+	return questionsManager.get_question_by_id(questionId)
 
+@app.route('/questions', methods=['GET'])
+def get_question_by_position():
+	position = request.args.get('position')
+	return questionsManager.get_question_by_position(position)
 
 if __name__ == "__main__":
     app.run()
