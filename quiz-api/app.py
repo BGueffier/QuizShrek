@@ -8,6 +8,8 @@ app = Flask(__name__)
 CORS(app)
 
 def get_formatted_token(tokenWithBearer):
+	if tokenWithBearer == None:
+		return None
 	return tokenWithBearer[7:]
 
 @app.route('/quiz-info', methods=['GET'])
@@ -28,20 +30,65 @@ def log_in():
 @app.route('/questions', methods=['POST'])
 def questions():
 	token = get_formatted_token(request.headers.get('Authorization'))
-	if (token is not None and jwt_utils.decode_token(token)):
+	if token:
+		try:
+			jwt_utils.decode_token(token)
+		except jwt_utils.JwtError:
+			return jsonify({'message': 'Unauthorized because of invalid or expired token'}), 401
+
 		id = questionsManager.create_question(request.get_json())
 		return jsonify({'id': id}), 200
 	else:
 		return jsonify({'message': 'Unauthorized'}), 401
 	
-@app.route('/questions/<questionId>', methods=['PUT'])
-def modifyOneQuestion(questionId):
+@app.route('/questions/<questionId>', methods=['DELETE'])
+def delete_one_question(questionId):
 	token = get_formatted_token(request.headers.get('Authorization'))
-	if (token is not None and jwt_utils.decode_token(token)):
-		questionsManager.update_question(request.get_json(), questionId)
-		return 'No Content', 204
+	if token:
+		try:
+			jwt_utils.decode_token(token)
+		except jwt_utils.JwtError:
+			return jsonify({'message': 'Unauthorized because of invalid or expired token'}), 401
+
+		try:
+			questionsManager.delete_question(questionId)
+		except ValueError:
+			return jsonify({'message': 'Question not found'}), 404
+		return jsonify({'message': 'No Content'}), 204
 	else:
 		return jsonify({'message': 'Unauthorized'}), 401
+	
+@app.route('/questions/all', methods=['DELETE'])
+def delete_all_questions():
+	token = get_formatted_token(request.headers.get('Authorization'))
+	if token:
+		try:
+			jwt_utils.decode_token(token)
+		except jwt_utils.JwtError:
+			return jsonify({'message': 'Unauthorized because of invalid or expired token'}), 401
+
+		questionsManager.delete_all_question()
+		return jsonify({'message': 'No Content'}), 204
+	else:
+		return jsonify({'message': 'Unauthorized'}), 401
+	
+@app.route('/questions/<questionId>', methods=['PUT'])
+def modify_one_question(questionId):
+	token = get_formatted_token(request.headers.get('Authorization'))
+	if token:
+		try:
+			jwt_utils.decode_token(token)
+		except jwt_utils.JwtError:
+			return jsonify({'message': 'Unauthorized because of invalid or expired token'}), 401
+
+		try:
+			questionsManager.update_question(request.get_json(), questionId)
+		except ValueError:
+			return jsonify({'message': 'Question not found'}), 404
+		return jsonify({'message': 'No Content'}), 204
+	else:
+		return jsonify({'message': 'Unauthorized'}), 401
+
 
 if __name__ == "__main__":
     app.run()
