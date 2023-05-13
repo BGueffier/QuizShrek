@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomePage from '../views/HomePage.vue'
 import NewQuizPage from '../views/NewQuizPage.vue'
 import QuestionsManager from '../views/QuestionsManager.vue'
+import ScorePage from '../views/ScorePage.vue'
 
 
 const router = createRouter({
@@ -21,6 +22,11 @@ const router = createRouter({
       path: '/questions',
       name: 'Questions',
       component: QuestionsManager
+    },
+    {
+      path: '/votre-score',
+      name: 'Score',
+      component: ScorePage
     }
   ]
 })

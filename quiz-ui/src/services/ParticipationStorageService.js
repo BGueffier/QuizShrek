@@ -6,12 +6,18 @@ export default {
         window.localStorage.setItem("playerName", playerName);
     },
     getPlayerName() {
-        // todo : implement
+        const result = window.localStorage.getItem("playerName");
+        return result == null ? "" : result;
     },
-    saveParticipationScore(participationScore) {
-        // todo : implement
+    saveScore(score) {
+        window.localStorage.setItem("playerScore", score);
     },
-    getParticipationScore() {
-        // todo : implement
-    }
+    getScore() {
+        const result = window.localStorage.getItem("playerScore");
+        return result == null ? "0" : result;
+    },
+    clearScore() {
+        if(window.localStorage.getItem("playerScore") != null)
+            window.localStorage.removeItem("playerScore");
+    },
 };
