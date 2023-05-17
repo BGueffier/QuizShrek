@@ -2,7 +2,8 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 import hashlib
 import jwt_utils
-import questionsManager
+import questions_manager
+import participation_manager
 
 app = Flask(__name__)
 CORS(app)
@@ -14,7 +15,14 @@ def get_formatted_token(tokenWithBearer):
 
 @app.route('/quiz-info', methods=['GET'])
 def get_quiz_info():
-	return {"size": 0, "scores": []}, 200
+	return participation_manager.get_quiz_infos()
+
+@app.route('/participations', methods=['POST'])
+def add_participation():
+	data = request.get_json()
+	player_name = data['playerName']
+	answers = data['answers']
+	return participation_manager.add_participation(player_name, answers)
 
 @app.route('/login', methods=['POST'])
 def log_in():
@@ -36,7 +44,7 @@ def questions():
 		except jwt_utils.JwtError:
 			return jsonify({'message': 'Unauthorized because of invalid or expired token'}), 401
 
-		id = questionsManager.create_question(request.get_json())
+		id = questions_manager.create_question(request.get_json())
 		return jsonify({'id': id}), 200
 	else:
 		return jsonify({'message': 'Unauthorized'}), 401
@@ -51,7 +59,7 @@ def delete_one_question(questionId):
 			return jsonify({'message': 'Unauthorized because of invalid or expired token'}), 401
 
 		try:
-			questionsManager.delete_question(questionId)
+			questions_manager.delete_question(questionId)
 		except ValueError as e:
 			return jsonify({'message': e.args[0]}), 404
 		return jsonify({'message': 'No Content'}), 204
@@ -67,7 +75,7 @@ def delete_all_questions():
 		except jwt_utils.JwtError:
 			return jsonify({'message': 'Unauthorized because of invalid or expired token'}), 401
 
-		questionsManager.delete_all_question()
+		questions_manager.delete_all_question()
 		return jsonify({'message': 'No Content'}), 204
 	else:
 		return jsonify({'message': 'Unauthorized'}), 401
@@ -82,7 +90,7 @@ def modify_one_question(questionId):
 			return jsonify({'message': 'Unauthorized because of invalid or expired token'}), 401
 
 		try:
-			questionsManager.update_question(request.get_json(), questionId)
+			questions_manager.update_question(request.get_json(), questionId)
 		except ValueError as e:
 			return jsonify({'message': e.args[0]}), 404
 		return jsonify({'message': 'No Content'}), 204
@@ -91,12 +99,12 @@ def modify_one_question(questionId):
 	
 @app.route('/questions/<questionId>', methods=['GET'])
 def get_question_by_id(questionId):
-	return questionsManager.get_question_by_id(questionId)
+	return questions_manager.get_question_by_id(questionId)
 
 @app.route('/questions', methods=['GET'])
 def get_question_by_position():
 	position = request.args.get('position')
-	return questionsManager.get_question_by_position(position)
+	return questions_manager.get_question_by_position(position)
 
 if __name__ == "__main__":
     app.run()
