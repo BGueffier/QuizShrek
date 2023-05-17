@@ -35,5 +35,39 @@ def add_participation(player_name, answers):
 
         if len(answers) != number_of_questions:
              return jsonify({'message': 'Bad Request: answers length must be equal to the number of questions in the quiz.'}), 400
+        
+        query_correct_answers_position = """
+        SELECT 
+            (SELECT COUNT(*) + 1 FROM Answer ans WHERE ans.question_id = q.id AND ans.id < a.id) AS answer_index 
+        FROM Question q 
+        JOIN Answer a 
+        ON q.id = a.question_id 
+        AND a.isCorrect = 1
+        """
+        c.execute(query_correct_answers_position)
+        correct_answers_position = []
+        answers_position = c.fetchall()
+        for position in answers_position:
+            correct_answers_position.append(int(position[0]))
 
-        return jsonify(''), 200
+        answers_summaries = []
+        player_score = 0
+        
+        for i, answer in enumerate(answers):
+            wasCorrect = bool(answer == correct_answers_position[i])
+            if wasCorrect == True:
+                player_score += 1
+            answers_summaries.append({
+                'correctAnswerPosition': correct_answers_position[i],
+                'wasCorrect': wasCorrect
+            })
+        
+        #TODO: INSERT INTO PARTICIPATION c.execute("")
+
+        result = {
+            'answersSummaries': answers_summaries,
+            'playerName': player_name,
+            'score': player_score
+        }
+
+        return jsonify(result), 200
