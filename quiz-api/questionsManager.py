@@ -119,7 +119,7 @@ def get_question_by_id(question_id_request):
             question_answers.append({
                 'id': answer[0],
                 'text': answer[1],
-                'isCorrect': answer[2],
+                'isCorrect': bool(answer[2]),
                 'question_id': question_id_request 
             })
         
@@ -132,7 +132,7 @@ def get_question_by_id(question_id_request):
             'possibleAnswers': question_answers            
         }
 
-        return jsonify({'question': question}), 200
+        return jsonify(question), 200
     
 def get_question_by_position(position):
     with sqlite3.connect("database.db") as db_connection:
@@ -152,7 +152,7 @@ def get_question_by_position(position):
             question_answers.append({
                 'id': answer[0],
                 'text': answer[1],
-                'isCorrect': answer[2],
+                'isCorrect': bool(answer[2]),
                 'question_id': question_content[0] 
             })
         
@@ -165,7 +165,7 @@ def get_question_by_position(position):
             'possibleAnswers': question_answers            
         }
 
-        return jsonify({'question': question}), 200
+        return jsonify(question), 200
 
 
 
