@@ -27,10 +27,10 @@ export default {
         console.error(error);
       });
   },
-  getQuizInfo() {
+  async getQuizInfo() {
     return this.call("get", "quiz-info");
   },
   getQuestion(position) {
-    // not implemented
+    return this.call("get", `/questions?position=${position}`);
   }
 };

@@ -1,6 +1,7 @@
 <script>
 import QuestionDisplay from "@/components/QuestionDisplay.vue";
 import participationStorageService from "@/services/ParticipationStorageService";
+import QuizApiServices from "@/services/QuizApiServices";
 
 export default {
     name: "QuestionsManager",
@@ -21,24 +22,38 @@ export default {
     },
 
     async created() {
-        this.currentQuestion = {
-            questionTitle: "Comment s'appelle l'âne dans Shrek ?",
-            questionText: "Nom de l'âne, de Shrek : ",
-            possibleAnswers: [{text:"L'âne", id:0},{text:"Greg", id:1},{text:"Reforme des retraites", id:2},{text:"Suzie", id:3}],
-        };
         this.currentQuestionPosition = 1;
-        this.totalNumberOfQuestion = 1;
+        QuizApiServices.getQuestion(this.currentQuestionPosition).then(data => {
+            this.currentQuestion = {
+                image: data.data.image,
+                questionTitle: data.data.title,
+                questionText: data.data.text,
+                possibleAnswers: data.data.possibleAnswers,
+            };
+        });
+        QuizApiServices.getQuizInfo().then(data => {
+           this.totalNumberOfQuestion = data.data.size;
+        });
     },
 
     methods:{
-        async answerClickedHandler(index){
-            if (index === 0) //TODO:fait en dur changer
+        async answerClickedHandler(answer){
+            if (answer.isCorrect) //TODO:fait en dur changer
                 this.score++;
 
             this.currentQuestionPosition++;
             if (this.currentQuestionPosition > this.totalNumberOfQuestion) {
                 await this.endQuiz();
+                return;
             }
+            QuizApiServices.getQuestion(this.currentQuestionPosition).then(data => {
+                this.currentQuestion = {
+                    image: data.data.image,
+                    questionTitle: data.data.title,
+                    questionText: data.data.text,
+                    possibleAnswers: data.data.possibleAnswers,
+                };
+            });
         },
 
         async endQuiz(){
