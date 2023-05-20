@@ -1,5 +1,6 @@
 import sqlite3
 from flask import jsonify
+import datetime
 
 def get_quiz_infos():
     with sqlite3.connect("database.db") as db_connection:
@@ -62,7 +63,10 @@ def add_participation(player_name, answers):
                 'wasCorrect': wasCorrect
             })
         
-        #TODO: INSERT INTO PARTICIPATION c.execute("")
+        date = datetime.datetime.now()
+        formattedDate = date.strftime("%d/%m/%Y %H:%M:%S")
+
+        c.execute("INSERT INTO participation (playerName, score, date) VALUES (?, ?, ?)", (player_name, player_score, formattedDate,))
 
         result = {
             'answersSummaries': answers_summaries,
@@ -71,3 +75,10 @@ def add_participation(player_name, answers):
         }
 
         return jsonify(result), 200
+    
+def delete_all_participation():
+    with sqlite3.connect("database.db") as db_connection:
+        c = db_connection.cursor()
+        c.execute("DELETE FROM participation")
+        db_connection.commit()
+        return jsonify({'message': 'No Content'}), 204

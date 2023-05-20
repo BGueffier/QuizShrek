@@ -24,6 +24,19 @@ def add_participation():
 	answers = data['answers']
 	return participation_manager.add_participation(player_name, answers)
 
+@app.route('/participations/all', methods=['DELETE'])
+def delete_all_participation():
+	token = get_formatted_token(request.headers.get('Authorization'))
+	if token:
+		try:
+			jwt_utils.decode_token(token)
+		except jwt_utils.JwtError:
+			return jsonify({'message': 'Unauthorized because of invalid or expired token'}), 401
+		
+		return participation_manager.delete_all_participation()
+	else:
+		return jsonify({'message': 'Unauthorized'}), 401
+
 @app.route('/login', methods=['POST'])
 def log_in():
 	payload = request.get_json()
