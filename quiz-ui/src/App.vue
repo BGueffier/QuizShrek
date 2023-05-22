@@ -1,15 +1,14 @@
-<script setup>
+<script>
 import { RouterLink, RouterView } from 'vue-router'
+
 </script>
 
 <template>
   <header>
     <div class="navbar">
-      <img src="@/assets/images/shrek-navbar.ico" class="picture">
+      <router-link to="/"><img src="@/assets/images/shrek-navbar.ico" class="picture"></router-link>
+      <router-link class="btn login-btn" to="/login" v-if="this.$router.name !== '/login'" >Page de connexion</router-link>
 
-      <div class="">
-        <!-- <router-link class="btn" to="/start-new-quiz-page">Démarrer le challenge !</router-link> -->
-      </div>
     </div>
   </header>
   <RouterView /> 
@@ -19,6 +18,10 @@ import { RouterLink, RouterView } from 'vue-router'
 
 <style scoped>
 
+.login-btn {
+  margin-left: auto;
+  
+}
 @font-face {
   font-family: "ShrekFont";
   src: local("ShrekFont"),
@@ -34,6 +37,7 @@ import { RouterLink, RouterView } from 'vue-router'
 header {
   line-height: 1.5;
   max-height: 100vh;
+  width: 100%;
   position: fixed;
   left: 0;
   top: 0;
@@ -41,6 +45,7 @@ header {
 
 .navbar{
   display: flex;
+  width: 100%;
 }
 .logo {
   display: block;
@@ -55,8 +60,8 @@ nav {
 }
 
 .picture {
-  min-width: 20%;
-  max-width: 25%;
+  min-width: 7rem;
+  max-width: 7rem;
 }
 nav a.router-link-exact-active {
   color: var(--color-text);

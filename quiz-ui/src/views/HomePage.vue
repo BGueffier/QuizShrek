@@ -27,7 +27,6 @@
 </template>
 
 <script>
-import quizApiService from "@/services/QuizApiServices";
 import QuizApiServices from "@/services/QuizApiServices";
 
 export default {

@@ -35,5 +35,8 @@ export default {
   },
   async pushScore(playerName, answers){
     return this.call("post", "/participations", {playerName: playerName, answers: answers});
+  },
+  async login(password){
+    return this.call("post", "/login", {password: password});
   }
 };
