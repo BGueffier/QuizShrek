@@ -25,17 +25,11 @@ export default {
 
     async created() {
         this.currentQuestionPosition = 1;
-        await QuizApiServices.getQuestion(this.currentQuestionPosition).then(data => {
-            this.currentQuestion = {
-                image: data.data.image,
-                questionTitle: data.data.title,
-                questionText: data.data.text,
-                possibleAnswers: data.data.possibleAnswers,
-            };
-        });
         await QuizApiServices.getQuizInfo().then(data => {
            this.totalNumberOfQuestion = data.data.size;
         });
+        await this.setQuestion();
+
     },
 
     methods:{
@@ -46,6 +40,9 @@ export default {
                 await this.endQuiz();
                 return;
             }
+            await this.setQuestion();
+        },
+        async setQuestion(){
             QuizApiServices.getQuestion(this.currentQuestionPosition).then(data => {
                 this.currentQuestion = {
                     image: data.data.image,
@@ -55,7 +52,6 @@ export default {
                 };
             });
         },
-
         async endQuiz(){
             await QuizApiServices.pushScore(ParticipationStorageService.getPlayerName(), this.answers).then(data =>{
                 this.score = data.data.score;
