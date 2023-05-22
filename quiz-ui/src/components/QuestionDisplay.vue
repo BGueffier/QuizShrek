@@ -22,8 +22,8 @@
         <h2 class="question-title">{{question.questionText}}</h2>
     </div>
     <div class="answers-area">
-        <div class="answer" v-for="answer in question.possibleAnswers" v-bind:key="answer.id">
-            <button type="button" class="btn" @click="$emit('answer-selected', answer)">{{answer.text}}</button>
+        <div class="answer" v-for="(answer, index) in question.possibleAnswers" v-bind:key="answer.id">
+            <button type="button" class="btn" @click="$emit('answer-selected', answer, index+1)">{{answer.text}}</button>
         </div>
     </div>
     

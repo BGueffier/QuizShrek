@@ -8,14 +8,14 @@
         
       </tr>
       <tr>
-        <th scope="col">#</th>
+        <th scope="col">Date</th>
         <th scope="col">Nom du joueur</th>
         <th scope="col">Score</th>
       </tr>
     </thead>
     <tbody>
-      <tr v-for="scoreEntry in registeredScores" v-bind:key="scoreEntry.index">
-        <th scope="row">{{ scoreEntry.index }}</th>
+      <tr v-for="scoreEntry in registeredScores" v-bind:key="scoreEntry.date">
+        <th scope="row">{{ scoreEntry.date }}</th>
         <td>{{ scoreEntry.playerName }}</td>
         <td>{{ scoreEntry.score }}</td>
       </tr>
@@ -28,6 +28,7 @@
 
 <script>
 import quizApiService from "@/services/QuizApiServices";
+import QuizApiServices from "@/services/QuizApiServices";
 
 export default {
 
@@ -40,10 +41,9 @@ export default {
     };
   },
   async created() {
-    this.registeredScores.push({playerName: "Micel", score: 500, index: 1});
-    this.registeredScores.push({playerName: "Ben", score: 150, index: 2});
-		this.registeredScores.push({playerName: "Vinc", score: 128, index: 3});
-    this.registeredScores.push({playerName: "Yoyo", score: 1, index: 4});
+      QuizApiServices.getQuizInfo().then(data => {
+          this.registeredScores = data.data.scores;
+      });
   }
 };
 </script>

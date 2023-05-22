@@ -2,6 +2,7 @@
 import QuestionDisplay from "@/components/QuestionDisplay.vue";
 import participationStorageService from "@/services/ParticipationStorageService";
 import QuizApiServices from "@/services/QuizApiServices";
+import ParticipationStorageService from "@/services/ParticipationStorageService";
 
 export default {
     name: "QuestionsManager",
@@ -13,17 +14,18 @@ export default {
         let currentQuestion = {};
         let currentQuestionPosition = 0;
         let totalNumberOfQuestion = 0;
+        let answers = [];
         let score = 0;
 
         return {
-            currentQuestion, currentQuestionPosition, totalNumberOfQuestion, score
+            currentQuestion, currentQuestionPosition, totalNumberOfQuestion, score, answers
         };
 
     },
 
     async created() {
         this.currentQuestionPosition = 1;
-        QuizApiServices.getQuestion(this.currentQuestionPosition).then(data => {
+        await QuizApiServices.getQuestion(this.currentQuestionPosition).then(data => {
             this.currentQuestion = {
                 image: data.data.image,
                 questionTitle: data.data.title,
@@ -31,16 +33,14 @@ export default {
                 possibleAnswers: data.data.possibleAnswers,
             };
         });
-        QuizApiServices.getQuizInfo().then(data => {
+        await QuizApiServices.getQuizInfo().then(data => {
            this.totalNumberOfQuestion = data.data.size;
         });
     },
 
     methods:{
-        async answerClickedHandler(answer){
-            if (answer.isCorrect) //TODO:fait en dur changer
-                this.score++;
-
+        async answerClickedHandler(answer, index){
+            this.answers.push(index);
             this.currentQuestionPosition++;
             if (this.currentQuestionPosition > this.totalNumberOfQuestion) {
                 await this.endQuiz();
@@ -57,7 +57,10 @@ export default {
         },
 
         async endQuiz(){
-            participationStorageService.saveScore(this.score)
+            await QuizApiServices.pushScore(ParticipationStorageService.getPlayerName(), this.answers).then(data =>{
+                this.score = data.data.score;
+            });
+            participationStorageService.saveScore(this.score);
             this.$router.push('/votre-score');
         }
     }
