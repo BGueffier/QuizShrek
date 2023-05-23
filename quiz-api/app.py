@@ -4,6 +4,7 @@ import hashlib
 import jwt_utils
 import questions_manager
 import participation_manager
+import database_manager
 
 app = Flask(__name__)
 CORS(app)
@@ -12,6 +13,20 @@ def get_formatted_token(tokenWithBearer):
 	if tokenWithBearer == None:
 		return None
 	return tokenWithBearer[7:]
+
+@app.route('/rebuild-db', methods=['POST'])
+def rebuild_db():
+	token = get_formatted_token(request.headers.get('Authorization'))
+	if token:
+		try:
+			jwt_utils.decode_token(token)
+		except jwt_utils.JwtError as e:
+			return jsonify({'message': e.args[0]}), 401
+		
+		database_manager.rebuild_database()
+		return 'Ok', 200
+	else:
+		return jsonify({'message': 'Unauthorized'}), 401
 
 @app.route('/quiz-info', methods=['GET'])
 def get_quiz_info():
