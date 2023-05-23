@@ -1,4 +1,7 @@
+// import jwt from 'jsonwebtoken';
+
 export default {
+    
     removeToken() {
         window.localStorage.removeItem('jwt_token');
     },
@@ -10,14 +13,13 @@ export default {
     },
     isAdminAuthenticated() {
         const token = this.getToken();
-        if(token){
-            try {
-                const decodedToken = jwt.verify(token);
-                return true;
-            } catch(error) {
-                this.removeToken();
-                return false;
-            }
-        }
+        // if(token){
+        //     jwt.verify(token, "Groupe numéro inconnu: écoutez Shreksophone de toute urgence.").then(() => {
+        //         return true;
+        //     })
+        //     .catch(() => {
+        //         return false;
+        //     });
+        // }
     }
 };

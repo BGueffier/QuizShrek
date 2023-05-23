@@ -17,6 +17,7 @@ import LoginService from "@/services/LoginService"
               await QuizApiServices.login(this.password).then(data => {
                 this.token = data.data.token;
                 LoginService.saveToken(this.token);
+                alert(LoginService.isAdminAuthenticated());
               })
               .catch(error => {
                 alert(error);
