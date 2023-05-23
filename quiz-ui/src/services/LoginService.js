@@ -1,4 +1,4 @@
-// import jwt from 'jsonwebtoken';
+import {decodeJwt, jwtVerify} from 'jose';
 
 export default {
     
@@ -11,15 +11,18 @@ export default {
     saveToken(token) {
         window.localStorage.setItem('jwt_token', token);
     },
-    isAdminAuthenticated() {
+    async isAdminAuthenticated() {
         const token = this.getToken();
-        // if(token){
-        //     jwt.verify(token, "Groupe numéro inconnu: écoutez Shreksophone de toute urgence.").then(() => {
-        //         return true;
-        //     })
-        //     .catch(() => {
-        //         return false;
-        //     });
-        // }
+        if(token){
+            try {
+                const decodedToken = decodeJwt(token);
+                const key = new TextEncoder().encode("Groupe numéro inconnu: écoutez Shreksophone de toute urgence.");
+                await jwtVerify(token, key, { algorithms: ['HS256'] });
+                return true;
+            } catch (error){
+                return false;
+            }
+            
+        }
     }
 };

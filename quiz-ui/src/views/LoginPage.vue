@@ -12,12 +12,19 @@ import LoginService from "@/services/LoginService"
                 password, token,
             };
         },
+        async created() {
+            LoginService.isAdminAuthenticated().then(result => {
+                console.log(result);
+            });
+        },
         methods:{
             async tryLogin(){
               await QuizApiServices.login(this.password).then(data => {
                 this.token = data.data.token;
                 LoginService.saveToken(this.token);
-                alert(LoginService.isAdminAuthenticated());
+                LoginService.isAdminAuthenticated().then(result => {
+                    console.log(result);
+                });
               })
               .catch(error => {
                 alert(error);
