@@ -22,12 +22,14 @@ import LoginService from "@/services/LoginService"
               await QuizApiServices.login(this.password).then(data => {
                 this.token = data.data.token;
                 LoginService.saveToken(this.token);
-                LoginService.isAdminAuthenticated().then(result => {
-                    console.log(result);
+                LoginService.isAdminAuthenticated().then(async result => {
+                    if(result){
+                        this.$router.push('/admin');
+                    }
                 });
               })
-              .catch(error => {
-                alert(error);
+              .catch(() => {
+                alert("Mauvais mot de passe !");
               });
               
             },

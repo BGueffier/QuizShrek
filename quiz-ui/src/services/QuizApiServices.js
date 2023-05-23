@@ -1,12 +1,12 @@
 import axios from "axios";
-
+import LoginService from "./LoginService";
 const instance = axios.create({
 	baseURL: `${import.meta.env.VITE_API_URL}`,
   json: true
 });
 
 export default {
-  async call(method, resource, data = null, token = null) {
+  async call(method, resource, data = null, token = LoginService.getToken()) {
     var headers = {
       "Content-Type": "application/json",
     };
@@ -38,5 +38,14 @@ export default {
   },
   async login(password){
     return this.call("post", "/login", {password: password});
+  },
+  async deleteQuestion(id) {
+    return this.call("delete", `/questions/${id}`);
+  },
+  async pushQuestion(title, text, position, image, possibleAnswers) {
+    return this.call("post", "/questions", {title: title, text: text, position: position, image: image, possibleAnswers: possibleAnswers});
+  },
+  async updateQuestion(id,title, text, position, image, possibleAnswers) {
+    return this.call("put", `/questions/${id}`, {title: title, text: text, position: position, image: image, possibleAnswers: possibleAnswers});
   }
 };

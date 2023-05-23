@@ -19,7 +19,7 @@ export default {
                 const key = new TextEncoder().encode("Groupe numéro inconnu: écoutez Shreksophone de toute urgence.");
                 await jwtVerify(token, key, { algorithms: ['HS256'] });
                 return true;
-            } catch (error){
+            } catch {
                 return false;
             }
             

@@ -15,6 +15,12 @@ export default{
     });
     console.log(this.isTokenGood);
   },
+  methods: {
+    signOut(){
+      LoginService.removeToken();
+      window.location.reload();
+    }
+  }
 }
 
 </script>
@@ -24,7 +30,8 @@ export default{
     <div class="navbar">
       <router-link to="/"><img src="@/assets/images/shrek-navbar.ico" class="picture"></router-link>
       <router-link class="btn login-btn" to="/login" v-if="this.isTokenGood === false">Page de connexion</router-link>
-      <router-link class="btn login-btn" to="/login" v-if="this.isTokenGood === true">Espace admin</router-link>
+      <router-link class="btn login-btn" to="/admin" v-if="this.isTokenGood === true">Espace admin</router-link>
+      <button class="btn signout-btn" to="/admin" @click="signOut()" v-if="this.isTokenGood === true">Déconnexion</button>
 
     </div>
   </header>
@@ -37,8 +44,12 @@ export default{
 
 .login-btn {
   margin-left: auto;
-  
 }
+
+.signout-btn{
+  margin-left: 2%;
+}
+
 @font-face {
   font-family: "ShrekFont";
   src: local("ShrekFont"),

@@ -15,7 +15,7 @@
 
 <template>
     <div>
-        <img src="@/assets/images/lane.png" class="picture">
+        <img :src="`${question.image}`" class="picture" v-if="question.image">
     </div>
     
     <div>
@@ -31,8 +31,8 @@
 
 <style>
     .picture {
-        min-width: 500px;
-        max-width: 550px;
+        min-width: 250px;
+        max-width: 250px;
         border-radius: 1rem;
     }
     .question-title {

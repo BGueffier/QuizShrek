@@ -4,6 +4,8 @@ import NewQuizPage from '../views/NewQuizPage.vue'
 import QuestionsManager from '../views/QuestionsManager.vue'
 import ScorePage from '../views/ScorePage.vue'
 import LoginPage from '../views/LoginPage.vue'
+import AdminPage from '../views/AdminPage.vue'
+import QuestionFormPage from '../views/QuestionFormPage.vue'
 
 
 const router = createRouter({
@@ -33,7 +35,18 @@ const router = createRouter({
       path: '/login',
       name: 'Login',
       component: LoginPage
-    }
+    },
+    {
+      path: '/admin',
+      name: 'Admin',
+      component: AdminPage
+    },
+    {
+      path: '/new-question',
+      name: 'QuestionForm',
+      component: QuestionFormPage,
+      props: (route) => ({ position: route.query.position })
+    },
   ]
 })
 

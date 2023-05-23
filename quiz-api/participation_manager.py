@@ -44,6 +44,7 @@ def add_participation(player_name, answers):
         JOIN Answer a 
         ON q.id = a.question_id 
         AND a.isCorrect = 1
+        ORDER BY q.position
         """
         c.execute(query_correct_answers_position)
         correct_answers_position = []
