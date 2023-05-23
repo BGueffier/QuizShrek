@@ -1,5 +1,21 @@
 <script>
 import { RouterLink, RouterView } from 'vue-router'
+import LoginService from "@/services/LoginService"
+
+export default{
+  data() {
+    let isTokenGood;
+    return {
+        isTokenGood,
+    };
+  },
+  async created() {
+    await LoginService.isAdminAuthenticated().then(result => {
+        this.isTokenGood = result;
+    });
+    console.log(this.isTokenGood);
+  },
+}
 
 </script>
 
@@ -7,7 +23,8 @@ import { RouterLink, RouterView } from 'vue-router'
   <header>
     <div class="navbar">
       <router-link to="/"><img src="@/assets/images/shrek-navbar.ico" class="picture"></router-link>
-      <router-link class="btn login-btn" to="/login" v-if="this.$router.name !== '/login'" >Page de connexion</router-link>
+      <router-link class="btn login-btn" to="/login" v-if="this.isTokenGood === false">Page de connexion</router-link>
+      <router-link class="btn login-btn" to="/login" v-if="this.isTokenGood === true">Espace admin</router-link>
 
     </div>
   </header>
