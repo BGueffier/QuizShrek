@@ -1,27 +1,27 @@
 <template>
   <h2 class="title">Shrek's Dreamland Challenge</h2>
-
-  <h4 class="subtitle">Best Shrek Lovers</h4>
+  <div v-if="registeredScores !== undefined">
+    <h4 class="subtitle">Best Shrek Lovers</h4>
   <table class="table table-dark table-striped">
     <thead>
       <tr>
         
       </tr>
       <tr>
-        <th scope="col">Date</th>
         <th scope="col">Nom du joueur</th>
         <th scope="col">Score</th>
       </tr>
     </thead>
     <tbody>
       <tr v-for="scoreEntry in registeredScores" v-bind:key="scoreEntry.date">
-        <th scope="row">{{ scoreEntry.date }}</th>
         <td>{{ scoreEntry.playerName }}</td>
         <td>{{ scoreEntry.score }}</td>
       </tr>
 
     </tbody>
   </table>
+  </div>
+  
 <router-link class="btn start-quiz" to="/start-new-quiz-page">Démarrer le challenge !</router-link>
   
 </template>
