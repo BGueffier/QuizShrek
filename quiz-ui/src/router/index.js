@@ -42,7 +42,7 @@ const router = createRouter({
       component: AdminPage
     },
     {
-      path: '/new-question',
+      path: '/question',
       name: 'QuestionForm',
       component: QuestionFormPage,
       props: (route) => ({ position: route.query.position })

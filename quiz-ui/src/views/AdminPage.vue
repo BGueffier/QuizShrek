@@ -43,7 +43,7 @@
                 });
             },
             editQuestion(position){
-                this.$router.push("/new-question/?position=" + position);
+                this.$router.push("/question/?position=" + position);
             }
         }
     }
@@ -71,7 +71,7 @@
             </div>
         </div>
     </div>
-    <router-link to="/new-question" class="btn add-answer-btn action-button add-btn">Ajouter une question</router-link>
+    <router-link to="/question" class="btn add-answer-btn action-button add-btn">Ajouter une question</router-link>
     
     
     
