@@ -1,7 +1,18 @@
 import sqlite3
 from flask import jsonify
 
+def check_valid_answers_duplication(payload):
+    number_of_correct_answers = 0
+    for answerInQuestion in payload['possibleAnswers']:
+        if answerInQuestion['isCorrect'] == 1:
+            number_of_correct_answers += 1
+    
+    if number_of_correct_answers != 1:
+        raise ValueError("The list of answers must contain only one correct answer!")
+
 def create_question(payload):
+    check_valid_answers_duplication(payload)
+
     with sqlite3.connect("database.db") as db_connection:
         c = db_connection.cursor()
 
@@ -61,6 +72,8 @@ def delete_all_question():
         db_connection.commit()
 
 def update_question(payload, question_id_request):
+    check_valid_answers_duplication(payload)
+
     with sqlite3.connect("database.db") as db_connection:
         c = db_connection.cursor()
 
