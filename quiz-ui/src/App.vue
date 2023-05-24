@@ -12,7 +12,6 @@ export default{
     await LoginService.isAdminAuthenticated().then(result => {
         this.isTokenGood = result;
     });
-    console.log(this.isTokenGood);
   },
   methods: {
     signOut(){

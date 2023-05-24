@@ -30,7 +30,6 @@
                     this.questions.push(data.data);
                 });
             }
-            console.log(this.questions);
         } ,
 
         methods: {

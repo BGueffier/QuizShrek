@@ -1,6 +1,6 @@
 <template>
   <h2 class="title">Shrek's Dreamland Challenge</h2>
-  <div v-if="registeredScores !== undefined">
+  <div v-if="registeredScores.length !== 0">
     <h4 class="subtitle">Best Shrek Lovers</h4>
   <table class="table table-dark table-striped">
     <thead>
@@ -43,6 +43,7 @@ export default {
       QuizApiServices.getQuizInfo().then(data => {
           this.registeredScores = data.data.scores;
       });
+      console.log(this.registeredScores);
   }
 };
 </script>

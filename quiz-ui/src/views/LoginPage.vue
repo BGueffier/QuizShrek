@@ -13,9 +13,7 @@ import LoginService from "@/services/LoginService"
             };
         },
         async created() {
-            LoginService.isAdminAuthenticated().then(result => {
-                console.log(result);
-            });
+            LoginService.isAdminAuthenticated();
         },
         methods:{
             async tryLogin(){
